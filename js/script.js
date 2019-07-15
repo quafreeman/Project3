@@ -18,6 +18,7 @@ $( document ).ready(function() {
     $('#color option').hide(); // hides the color option
     // this function gives the T-Shirt selection a filter for the Design and Color section.
     $('#design').on("change", function() { 
+        $('#color').val(''); // gets the value of an empty string
         $("#color option[value=cornflowerblue]").hide();
         $("#color option[value=darkslategrey]").hide();
         $("#color option[value=gold]").hide();
@@ -96,17 +97,7 @@ $( document ).ready(function() {
             $("fieldset div p").show();
         }
     });
-    //Validation
-    // function activitiesCheck() {
-    //     let activitiesField =$('.activities input[type="checkbox"]');//calls class name
-    //     var activities = activitiesField.val();// gets the value of the name
-    //     if (activities == '') {
-    //         activitiesError= true;
-    //         activitiesField.after('<p id="# activitiesError" class="error">Please select checkbox provided below</p>');//created an error message 
-    //     } else {
-    //         $('#activitiesError').remove();//removes error message when Name is provided
-    //     }
-    // }
+   // This section Validates the payment & activities function
     
     function checkName() {
         let nameField =$('#name');//calls class name
@@ -141,12 +132,11 @@ $( document ).ready(function() {
         });
         if(activitiesCheck.length < 1){
             $('.activities legend').css('color', "red");
-            // $('.activities legend').parent().css('border-color', "red");
-            // $('.activities input').after().text('Please choose at least one activity');
+            
             activitiesError = true;
         } else {
             $('.activities legend').css('color', "black");
-            // $('.activities legend').parent().css('border-color', "red");
+            
 
             activitiesError = false;
         }
@@ -155,7 +145,7 @@ $( document ).ready(function() {
     function checkCredit() {
         let creditField =$('#cc-num');
         let creditRegex=/^[0-9]{13,16}?$/;
-        var credit = creditField.val();
+        var credit = creditField.val();// gets the value of credit
         //let creditError = false;
         if (credit == '' || !creditRegex.test(credit)) {
             creditError = true;
@@ -168,9 +158,9 @@ $( document ).ready(function() {
 
    
     function checkZip() {
-        let zipField =$('#zip');
+        let zipField =$('#zip');//calls class name
         let zipRegex=/^[0-9]{5}$/;
-        var zip = zipField.val();
+        var zip = zipField.val();// gets the value of the Zip
         //let zipError = false;
         if (zip == '' || zipRegex.test(zip)) {
         zipError = true;
@@ -182,11 +172,11 @@ $( document ).ready(function() {
     }
 
     function checkCVV() {
-        let cvvField =$('#cvv');
+        let cvvField =$('#cvv');//calls class name
         let cvvRegex=/^[0-9]{3}$/;
-        var cvv = cvvField.val();
+        var cvv = cvvField.val();// gets the value of the CVV
         //let cvvError = false;
-        if (cvv == '' || cvvRegex.test(cvv)) {
+        if (cvv == '' || !cvvRegex.test(cvv)) {
         cvvError= true;
         cvvField.after('<p id="cvvError" class="error">Please provide the CVV number</p>');
         } else {
@@ -199,21 +189,23 @@ $( document ).ready(function() {
         checkCredit();
         checkZip();
         checkCVV();
-        if(cvvError && zipError && creditError)
+        if(cvvError || zipError || creditError)
         paymentError = true;
-        } else{paymentError = false;}
+        } else {paymentError = false;}
     }
 
     function checkPayment(){
-        if (value == "credit card") {
-            creditcardCheck();
-        } else{
-            paymentError = false;
-
-        }    
-
+        let isValid = true;
+        var paymentType = $("#payment").val(); 
+        $('#payment + .err-msg').remove();
+        if (paymentType === 'credit card') {
+            isValid = creditcardCheck() && isValid;
+            isValid = checkZip() && isValid;
+            isValid = checkCVV() && isValid;
+        }
     }
-
+   
+    
     $("button:submit").click(function(){
         nameError = false;
         mailError = false;
@@ -246,3 +238,5 @@ $( document ).ready(function() {
     console.log("cvv is"+ zipError);
     });
 });
+
+
