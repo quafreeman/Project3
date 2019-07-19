@@ -106,7 +106,7 @@ $(document).ready(function () {
         var name = nameField.val();// gets the value of the name
         $('#nameError').remove();
         if (name == '' || !nameRegex.test(name)) {
-            nameError = true;
+            nameError = false;
             nameField.after('<p id="nameError" class="error">Please provide a name</p>');//created an error message 
 
         }
@@ -157,7 +157,7 @@ $(document).ready(function () {
 
     function checkZip() {
         let zipField = $('#zip');//calls class name
-        let zipRegex = /^[0-9]{5}$/;
+        let zipRegex = /^\d{5}(?:[-\s]\d{4})?$/;
         var zip = zipField.val();// gets the value of the Zip
         $('#zipError').remove();
         if (zip == '' || zipRegex.test(zip)) {
