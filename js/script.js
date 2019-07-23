@@ -106,7 +106,7 @@ $(document).ready(function () {
         var name = nameField.val();// gets the value of the name
         $('#nameError').remove();
         if (name == '' || !nameRegex.test(name)) {
-            nameError = false;
+            nameError = true;
             nameField.after('<p id="nameError" class="error">Please provide a name</p>');//created an error message 
 
         }
