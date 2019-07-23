@@ -84,6 +84,7 @@ $(document).ready(function () {
     });
 
     $('#payment option:first-child').hide();
+    $('#payment').val("credit card");
     $("#credit-card").hide().next().hide().next().hide();//hides "If you selected the PayPal option we'll take you to Paypal's site to set up your billing information, when you click “Register”" below when selecting Credit Card
     let value = "credit card" //sets the value of credit cards
     //This function gives the Payment Section an option to show and hide the payment sections accordingly
@@ -160,7 +161,7 @@ $(document).ready(function () {
         let zipRegex = /^\d{5}(?:[-\s]\d{4})?$/;
         var zip = zipField.val();// gets the value of the Zip
         $('#zipError').remove();
-        if (zip == '' || zipRegex.test(zip)) {
+        if (zip == '' || !zipRegex.test(zip)) {
             zipError = true;
             zipField.after('<p id="zipError" class="error">Please provide the Zip Code</p>');
         } else {
